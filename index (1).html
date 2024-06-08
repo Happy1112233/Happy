@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crush Question</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+            overflow: hidden;
+        }
+        #container {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #000;
+            background-color: #fff;
+            border-radius: 10px;
+            z-index: 10;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #no-btn {
+            position: absolute;
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            animation: float 3s ease-in infinite;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px);
+                opacity: 0;
+            }
+        }
+        #cat-gif {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+        }
+        .background-heart {
+            position: absolute;
+            color: rgba(255, 0, 0, 0.1);
+            animation: float 10s ease-in infinite;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Do you have a crush on me?</h2>
+        <button id="yes-btn" onclick="showHearts()">Yes</button>
+        <button id="no-btn" onclick="moveButton()">No</button>
+    </div>
+    <img id="cat-gif" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Cat with hearts">
+    <audio id="meow-sound" src="https://www.soundjay.com/cat/cat-meow-1.mp3"></audio>
+    <script>
+        function moveButton() {
+            const btn = document.getElementById('no-btn');
+            const container = document.getElementById('container');
+            const containerRect = container.getBoundingClientRect();
+            const maxX = window.innerWidth - containerRect.left - btn.offsetWidth - 20;
+            const maxY = window.innerHeight - containerRect.top - btn.offsetHeight - 20;
+
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            btn.style.left = `${randomX}px`;
+            btn.style.top = `${randomY}px`;
+        }
+
+        function showHearts() {
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${Math.random() * 20 + 20}px`; // Random heart sizes
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 3000);
+            }
+
+            setTimeout(() => {
+                document.getElementById('cat-gif').style.display = 'block';
+                document.getElementById('meow-sound').play();
+            }, 2000);
+        }
+
+        function createBackgroundHearts() {
+            for (let i = 0; i < 100; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'background-heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.fontSize = `${Math.random() * 50 + 10}px`; // Random heart sizes
+                document.body.appendChild(heart);
+            }
+        }
+
+        createBackgroundHearts();
+    </script>
+</body>
+</html>
